@@ -1,7 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { FlatList, Text } from 'react-native';
 
-import { Container, Product, ProductImage } from './styles';
+import {
+  Container,
+  Product,
+  ProductImage,
+  ProductTitle,
+  AddButton,
+} from './styles';
 import api from '../../services/api';
 
 export default function Home() {
@@ -23,7 +29,21 @@ export default function Home() {
   const renderProduct = ({ item }) => {
     return (
       <Product key={item.id}>
-        <Text style={{ color: '#fff' }}>{item.title}</Text>
+        <ProductImage source={{ uri: item.image }} />
+        <ProductTitle>{item.title}</ProductTitle>
+        <AddButton onPress={() => {}}>
+          <Text
+            style={{
+              fontWeight: 'bold',
+              color: '#fff',
+              justifyContent: 'center',
+              alignSelf: 'stretch',
+              alignItems: 'center',
+            }}
+          >
+            ADD PRODUCT
+          </Text>
+        </AddButton>
       </Product>
     );
   };

@@ -4,6 +4,7 @@ import logo from '../../assets/img/logo.png';
 export const Container = styled.View`
   flex-direction: row;
   justify-content: space-between;
+  padding: 10px;
 `;
 
 export const Logo = styled.Image.attrs({
