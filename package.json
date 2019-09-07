@@ -4,9 +4,11 @@
   "private": true,
   "scripts": {
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "jserver": "json-server server.json -p 3001"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "react": "16.8.6",
     "react-native": "0.60.5",
     "react-native-gesture-handler": "^1.4.1",
@@ -32,6 +34,7 @@
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^2.0.1",
     "jest": "^24.1.0",
+    "json-server": "^0.15.1",
     "metro-react-native-babel-preset": "0.54.1",
     "prettier": "^1.18.2",
     "react-test-renderer": "16.8.6"
