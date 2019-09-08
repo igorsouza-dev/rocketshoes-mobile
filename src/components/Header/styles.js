@@ -7,7 +7,7 @@ export const Container = styled.View`
   justify-content: space-between;
   padding: 10px;
 `;
-
+export const LogoContainer = styled.TouchableOpacity``;
 export const Logo = styled.Image.attrs({
   source: logo,
   resizeMode: 'cover',
