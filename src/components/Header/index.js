@@ -1,8 +1,7 @@
 import React from 'react';
-import { Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
-import { Container, Logo, ShoppingCartContainer } from './styles';
+import { Container, Logo, ShoppingCartContainer, ItemCount } from './styles';
 
 export default function Header({ navigation }) {
   return (
@@ -14,6 +13,7 @@ export default function Header({ navigation }) {
         }}
       >
         <Icon name="shopping-basket" color="#FFF" size={24} />
+        <ItemCount>0</ItemCount>
       </ShoppingCartContainer>
     </Container>
   );
