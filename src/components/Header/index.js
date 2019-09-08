@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import {
@@ -10,6 +11,7 @@ import {
 } from './styles';
 
 export default function Header({ navigation }) {
+  const cartSize = useSelector(state => state.cart.length);
   return (
     <Container>
       <LogoContainer
@@ -25,7 +27,7 @@ export default function Header({ navigation }) {
         }}
       >
         <Icon name="shopping-basket" color="#FFF" size={24} />
-        <ItemCount>0</ItemCount>
+        <ItemCount>{cartSize}</ItemCount>
       </ShoppingCartContainer>
     </Container>
   );

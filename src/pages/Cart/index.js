@@ -1,10 +1,13 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { View, Text } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import colors from '../../styles/colors';
 
+import * as CartActions from '../../store/modules/cart/actions';
+
 import { formatPrice } from '../../util/format';
+
 import {
   Container,
   ProductList,
@@ -31,37 +34,58 @@ import {
 } from './styles';
 
 export default function Cart() {
-  const cart = [1, 2, 3];
+  const products = useSelector(state =>
+    state.cart.map(product => ({
+      ...product,
+      formattedPrice: formatPrice(product.price),
+      subtotal: formatPrice(product.price * product.amount),
+    }))
+  );
+  const total = useSelector(state =>
+    formatPrice(
+      state.cart.reduce((totalSum, product) => {
+        return totalSum + product.price * product.amount;
+      }, 0)
+    )
+  );
+  const dispatch = useDispatch();
 
-  const renderProduct = product => {
+  function increment(product) {
+    dispatch(CartActions.updateAmountRequest(product.id, product.amount + 1));
+  }
+  function decrement(product) {
+    dispatch(CartActions.updateAmountRequest(product.id, product.amount - 1));
+  }
+  const renderProduct = ({ item }) => {
     return (
-      <ProductContainer key={product}>
+      <ProductContainer key={item.id}>
         <ProductInfo>
           <ProductImage
             source={{
-              uri:
-                'https://rocketseat-cdn.s3-sa-east-1.amazonaws.com/modulo-redux/tenis3.jpg',
+              uri: item.image,
             }}
           />
           <ProductTextContainer>
-            <ProductTitle>Tênis fuleiro</ProductTitle>
-            <ProductPrice>R$231,22</ProductPrice>
+            <ProductTitle>{item.title}</ProductTitle>
+            <ProductPrice>{item.formattedPrice}</ProductPrice>
           </ProductTextContainer>
-          <ProductDeleteButton>
+          <ProductDeleteButton
+            onPress={() => dispatch(CartActions.removeFromCart(item.id))}
+          >
             <Icon name="delete-forever" color={colors.primary} size={26} />
           </ProductDeleteButton>
         </ProductInfo>
         <ProductFooter>
           <ProductActions>
-            <ProductActionButton onPress={() => {}}>
+            <ProductActionButton onPress={() => decrement(item)}>
               <Icon
                 name="remove-circle-outline"
                 color={colors.primary}
                 size={24}
               />
             </ProductActionButton>
-            <ProductAmount value="1" />
-            <ProductActionButton onPress={() => {}}>
+            <ProductAmount value={String(item.amount)} />
+            <ProductActionButton onPress={() => increment(item)}>
               <Icon
                 name="add-circle-outline"
                 color={colors.primary}
@@ -70,7 +94,7 @@ export default function Cart() {
             </ProductActionButton>
           </ProductActions>
           <ProductSubtotal>
-            <ProductSubtotalText>R$121,23</ProductSubtotalText>
+            <ProductSubtotalText>{item.subtotal}</ProductSubtotalText>
           </ProductSubtotal>
         </ProductFooter>
       </ProductContainer>
@@ -81,15 +105,15 @@ export default function Cart() {
     <Container>
       <ProductListContainer>
         <ProductList
-          data={cart}
-          keyExtractor={item => String(item)}
+          data={products}
+          keyExtractor={product => String(product.id)}
           renderItem={renderProduct}
         />
       </ProductListContainer>
       <PageFooter>
         <TotalContainer>
           <TotalLabel>Total</TotalLabel>
-          <TotalText>R$123,12</TotalText>
+          <TotalText>{total}</TotalText>
         </TotalContainer>
         <CheckoutButton>
           <CheckoutButtonText>Checkout</CheckoutButtonText>

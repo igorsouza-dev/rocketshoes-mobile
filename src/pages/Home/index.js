@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { FlatList, ActivityIndicator } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+
+import * as CartActions from '../../store/modules/cart/actions';
 
 import { formatPrice } from '../../util/format';
 
@@ -21,6 +24,15 @@ export default function Home() {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(false);
 
+  const amount = useSelector(state =>
+    state.cart.reduce((sumAmount, product) => {
+      sumAmount[product.id] = product.amount;
+
+      return sumAmount;
+    }, {})
+  );
+  const dispatch = useDispatch();
+
   useEffect(() => {
     async function loadProducts() {
       setLoading(true);
@@ -36,16 +48,22 @@ export default function Home() {
     loadProducts();
   }, []);
 
+  function handleAddProduct(id) {
+    dispatch(CartActions.addToCartRequest(id));
+  }
+
   const renderProduct = ({ item }) => {
+    console.tron.log(amount);
+    const productAmount = amount[item.id] || 0;
     return (
       <Product key={item.id}>
         <ProductImage source={{ uri: item.image }} />
         <ProductTitle>{item.title}</ProductTitle>
         <ProductPrice>{item.priceFormatted}</ProductPrice>
-        <AddButton onPress={() => {}}>
+        <AddButton onPress={() => handleAddProduct(item.id)}>
           <ProductAmount>
             <Icon name="add-shopping-cart" color="#fff" size={24} />
-            <ProductAmountText>0</ProductAmountText>
+            <ProductAmountText>{productAmount}</ProductAmountText>
           </ProductAmount>
           <AddButtonText>Add To Cart</AddButtonText>
         </AddButton>
