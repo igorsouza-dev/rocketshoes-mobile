@@ -4,9 +4,6 @@ import colors from '../../styles/colors';
 
 export const Container = styled.View``;
 
-export const ProductContainer = styled.View`
-  flex-direction: row;
-`;
 export const Product = styled.View`
   padding: 10px;
   margin: 5px;

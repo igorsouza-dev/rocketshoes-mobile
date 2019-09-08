@@ -76,6 +76,7 @@ export default function Home() {
       <FlatList
         horizontal
         data={products}
+        extraData={amount}
         keyExtractor={item => String(item.id)}
         renderItem={renderProduct}
       />
