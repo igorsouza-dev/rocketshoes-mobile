@@ -125,3 +125,13 @@ export const PageFooter = styled.View`
   border-top-color: #e6e6e6;
   border-top-width: 2px;
 `;
+export const EmptyCart = styled.View`
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+`;
+export const EmptyCartText = styled.Text`
+  font-weight: bold;
+  font-size: 20px;
+  text-align: center;
+`;

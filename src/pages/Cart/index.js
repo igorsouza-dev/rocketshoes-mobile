@@ -31,6 +31,8 @@ import {
   CheckoutButtonText,
   ProductListContainer,
   PageFooter,
+  EmptyCart,
+  EmptyCartText,
 } from './styles';
 
 export default function Cart() {
@@ -84,7 +86,11 @@ export default function Cart() {
                 size={24}
               />
             </ProductActionButton>
-            <ProductAmount value={String(item.amount)} />
+            <ProductAmount
+              value={String(item.amount)}
+              readonly
+              editable={false}
+            />
             <ProductActionButton onPress={() => increment(item)}>
               <Icon
                 name="add-circle-outline"
@@ -103,22 +109,31 @@ export default function Cart() {
 
   return (
     <Container>
-      <ProductListContainer>
-        <ProductList
-          data={products}
-          keyExtractor={product => String(product.id)}
-          renderItem={renderProduct}
-        />
-      </ProductListContainer>
-      <PageFooter>
-        <TotalContainer>
-          <TotalLabel>Total</TotalLabel>
-          <TotalText>{total}</TotalText>
-        </TotalContainer>
-        <CheckoutButton>
-          <CheckoutButtonText>Checkout</CheckoutButtonText>
-        </CheckoutButton>
-      </PageFooter>
+      {products.length > 0 ? (
+        <>
+          <ProductListContainer>
+            <ProductList
+              data={products}
+              keyExtractor={product => String(product.id)}
+              renderItem={renderProduct}
+            />
+          </ProductListContainer>
+          <PageFooter>
+            <TotalContainer>
+              <TotalLabel>Total</TotalLabel>
+              <TotalText>{total}</TotalText>
+            </TotalContainer>
+            <CheckoutButton>
+              <CheckoutButtonText>Checkout</CheckoutButtonText>
+            </CheckoutButton>
+          </PageFooter>
+        </>
+      ) : (
+        <EmptyCart>
+          <Icon name="remove-shopping-cart" size={64} color="#ddd" />
+          <EmptyCartText>Your cart is empty.</EmptyCartText>
+        </EmptyCart>
+      )}
     </Container>
   );
 }
